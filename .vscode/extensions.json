@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "pkief.material-icon-theme",
+    "dbaeumer.vscode-eslint",
+    "orta.vscode-jest",
+    "webben.browserslist",
+    "streetsidesoftware.code-spell-checker",
+    "esbenp.prettier-vscode",
+    "editorconfig.editorconfig",
+    "syler.sass-indented",
+    "cschleiden.vscode-github-actions"
+  ]
+}
