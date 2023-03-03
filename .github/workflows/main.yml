@@ -50,9 +50,21 @@ jobs:
     runs-on: ubuntu-latest
     container: cypress/browsers:node12.18.3-chrome87-ff82
 
+    strategy:
+      matrix:
+        node-version: [18.x]
+
     steps:
       - name: Checkout for Cypress
         uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Restore Dependencies
+        run: npm ci
 
       - name: Cypress Run on Firefox
         uses: cypress-io/github-action@v5
