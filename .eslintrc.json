@@ -21,6 +21,8 @@
     "plugin:jest/style",
     "plugin:testing-library/react",
     "plugin:jest-dom/recommended",
+    "plugin:cypress/recommended",
+    "plugin:storybook/recommended",
     "plugin:jest-formatting/strict",
     "plugin:prettier/recommended"
   ],
