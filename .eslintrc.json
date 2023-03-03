@@ -1,3 +1,109 @@
 {
-  "extends": ["react-app", "react-app/jest", "plugin:prettier/recommended"]
+  "parserOptions": {
+    "project": ["./tsconfig.json"]
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:@typescript-eslint/strict",
+    "plugin:sonarjs/recommended",
+    "plugin:unicorn/recommended",
+    "plugin:promise/recommended",
+    "react-app",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:jsx-a11y/strict",
+    "plugin:compat/recommended",
+    "react-app/jest",
+    "plugin:jest/recommended",
+    "plugin:jest-extended/all",
+    "plugin:jest/style",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended",
+    "plugin:jest-formatting/strict",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/array-type": [2, { "default": "generic" }],
+    "@typescript-eslint/explicit-function-return-type": 2,
+    "@typescript-eslint/explicit-member-accessibility": 2,
+    "@typescript-eslint/member-ordering": 2,
+    "@typescript-eslint/parameter-properties": 2,
+    "@typescript-eslint/naming-convention": [
+      2,
+      {
+        "selector": "default",
+        "format": ["camelCase"]
+      },
+      {
+        "selector": "variable",
+        "format": ["camelCase", "UPPER_CASE", "PascalCase"]
+      },
+      {
+        "selector": "parameter",
+        "format": ["camelCase"],
+        "leadingUnderscore": "allow"
+      },
+      {
+        "selector": "memberLike",
+        "modifiers": ["private"],
+        "format": ["camelCase"],
+        "leadingUnderscore": "require"
+      },
+      {
+        "selector": "enumMember",
+        "format": ["PascalCase"]
+      },
+      {
+        "selector": "typeLike",
+        "format": ["PascalCase"]
+      },
+      {
+        "selector": "variable",
+        "types": ["boolean"],
+        "format": ["PascalCase"],
+        "prefix": ["is", "should", "has", "can", "did", "will"]
+      },
+      {
+        "selector": "typeParameter",
+        "format": ["PascalCase"],
+        "prefix": ["T"]
+      }
+    ],
+    "react/boolean-prop-naming": 2,
+    "react/forbid-component-props": 2,
+    "react/jsx-handler-names": 2,
+    "react/jsx-props-no-spreading": 2,
+    "react/prop-types": 0,
+    "react/no-danger": 2,
+    "react/no-namespace": 2,
+    "react/no-unused-prop-types": 2,
+    "unicorn/filename-case": [
+      2,
+      {
+        "case": "pascalCase",
+        "ignore": [
+          "\\.spec\\.*",
+          "\\.routes\\.*",
+          "\\.stories\\.*",
+          "\\.cy\\.*"
+        ]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.stories.*"],
+      "rules": {
+        "import/no-anonymous-default-export": 0
+      }
+    },
+    {
+      "files": ["**/*.cy.*"],
+      "rules": {
+        "jest/expect-expect": 0
+      }
+    }
+  ]
 }
