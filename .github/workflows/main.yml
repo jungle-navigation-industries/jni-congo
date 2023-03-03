@@ -64,13 +64,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Cypress Run on Firefox
-        uses: cypress-io/github-action@v5.x.x
+        uses: cypress-io/github-action@v5
         with:
           start: npm run start
           browser: firefox
 
       - name: Cypress Run on Chrome
-        uses: cypress-io/github-action@v5.x.x
+        uses: cypress-io/github-action@v5
         with:
           start: npm run start
           browser: chrome
