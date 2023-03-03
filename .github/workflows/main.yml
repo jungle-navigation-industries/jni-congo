@@ -48,7 +48,7 @@ jobs:
 
   cypress-run:
     runs-on: ubuntu-latest
-    container: cypress/included:9.4.1
+    container: cypress/included:12.3.0
 
     strategy:
       matrix:
@@ -77,6 +77,12 @@ jobs:
         with:
           start: npm run start
           browser: chrome
+
+      - name: Cypress Run on Edge
+        uses: cypress-io/github-action@v5
+        with:
+          start: npm run start
+          browser: edge
 
       # - name: Deploy App
       #   uses: azure/webapps-deploy@v2
