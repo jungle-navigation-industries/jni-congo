@@ -1,0 +1,66 @@
+name: main
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+env:
+  NODE_VERSION: "18.x"
+  AZURE_WEBAPP_NAME: "asc-dev-react"
+  AZURE_WEBAPP_STORYBOOK_NAME: "asc-dev-react-storybook"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Restore Dependencies
+        run: npm ci
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Build Storybook
+        run: npm run build-storybook
+
+      - name: Lint Application
+        run: npm run lint -- --max-warnings 0
+
+      - name: Lint Integration Test
+        run: npm run lint:e2e -- --max-warnings 0
+
+      - name: Run Unit Tests
+        run: npm run test -- --coverage
+
+      - name: Run Integration Tests
+        uses: cypress-io/github-action@v5
+        with:
+          start: npm run start
+
+      # - name: Deploy App
+      #   uses: azure/webapps-deploy@v2
+      #   with:
+      #     app-name: ${{ env.AZURE_WEBAPP_NAME }}
+      #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+      #     package: ./build
+
+      # - name: Deploy Storybook
+      #   uses: azure/webapps-deploy@v2
+      #   with:
+      #     app-name: ${{ env.AZURE_WEBAPP_STORYBOOK_NAME }}
+      #     publish-profile: ${{ secrets.AZURE_WEBAPP_STORYBOOK_PUBLISH_PROFILE }}
+      #     package: ./storybook-static
