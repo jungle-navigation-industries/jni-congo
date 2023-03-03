@@ -55,14 +55,14 @@ jobs:
       - name: Run Cypress on Chrome
         uses: cypress-io/github-action@v5
         with:
-          install: false
+          install: false # Don't need to re-install deps, will error out if tried
           start: npm run start
           browser: chrome
 
       - name: Run Cypress on Edge
         uses: cypress-io/github-action@v5
         with:
-          install: false
+          install: false # Don't need to re-install deps, will error out if tried
           start: npm run start
           browser: edge
 
