@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# storybook production
+/storybook-static
+
 # production
 /build
 
