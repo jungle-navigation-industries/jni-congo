@@ -48,7 +48,7 @@ jobs:
 
   cypress-run:
     runs-on: ubuntu-latest
-    container: cypress/browsers:node12.18.3-chrome87-ff82
+    container: cypress/included:9.4.1
 
     strategy:
       matrix:
