@@ -46,38 +46,19 @@ jobs:
       - name: Run Unit Tests
         run: npm run test -- --coverage
 
-  cypress-run:
-    runs-on: ubuntu-latest
-    container:
-      image: cypress/included:12.3.0
-      options: --user 1001 # Needed to make firefox work.
-
-    strategy:
-      matrix:
-        node-version: [18.x]
-
-    steps:
-      - name: Checkout for Cypress
-        uses: actions/checkout@v3
-
-      # - name: Setup Node
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{ matrix.node-version }}
-
-      - name: Cypress Run on Firefox
+      - name: Run Cypress on Firefox
         uses: cypress-io/github-action@v5
         with:
           start: npm run start
           browser: firefox
 
-      - name: Cypress Run on Chrome
+      - name: Run Cypress on Chrome
         uses: cypress-io/github-action@v5
         with:
           start: npm run start
           browser: chrome
 
-      - name: Cypress Run on Edge
+      - name: Run Cypress on Edge
         uses: cypress-io/github-action@v5
         with:
           start: npm run start
