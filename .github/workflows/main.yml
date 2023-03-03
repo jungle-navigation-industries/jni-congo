@@ -66,11 +66,11 @@ jobs:
       - name: Restore Dependencies
         run: npm ci
 
-      - name: Cypress Run on Firefox
-        uses: cypress-io/github-action@v5
-        with:
-          start: npm run start
-          browser: firefox
+      # - name: Cypress Run on Firefox
+      #   uses: cypress-io/github-action@v5
+      #   with:
+      #     start: npm run start
+      #     browser: firefox
 
       - name: Cypress Run on Chrome
         uses: cypress-io/github-action@v5
