@@ -31,17 +31,17 @@ jobs:
       - name: Restore Dependencies
         run: npm ci
 
-      - name: Build Application
-        run: npm run build
-
-      - name: Build Storybook
-        run: npm run build-storybook
-
       - name: Lint Application
         run: npm run lint -- --max-warnings 0
 
       - name: Lint Integration Test
         run: npm run lint:e2e -- --max-warnings 0
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Build Storybook
+        run: npm run build-storybook
 
       - name: Run Unit Tests
         run: npm run test -- --coverage
@@ -55,12 +55,14 @@ jobs:
       - name: Run Cypress on Chrome
         uses: cypress-io/github-action@v5
         with:
+          install: false
           start: npm run start
           browser: chrome
 
       - name: Run Cypress on Edge
         uses: cypress-io/github-action@v5
         with:
+          install: false
           start: npm run start
           browser: edge
 
