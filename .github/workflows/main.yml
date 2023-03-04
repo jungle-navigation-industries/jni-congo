@@ -12,13 +12,9 @@ env:
   AZURE_WEBAPP_STORYBOOK_NAME: "asc-dev-react-storybook"
 
 jobs:
-  prepare:
-    name: Prepare App
+  application:
+    name: Prepare Application
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x]
 
     steps:
       - name: Checkout
@@ -27,7 +23,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.node-version }}
 
       - name: Restore Dependencies
         run: npm ci
@@ -35,17 +31,36 @@ jobs:
       - name: Lint Application
         run: npm run lint -- --max-warnings 0
 
-      - name: Lint Integration Test
-        run: npm run lint:e2e -- --max-warnings 0
+      - name: Run Unit Tests
+        run: npm run test -- --coverage
 
       - name: Build Application
         run: npm run build
 
-      - name: Build Storybook
-        run: npm run build-storybook
+  storybook:
+    name: Prepare Storybook
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Restore Dependencies
+        run: npm ci
+
+      - name: Lint Application
+        run: npm run lint -- --max-warnings 0
 
       - name: Run Unit Tests
         run: npm run test -- --coverage
+
+      - name: Build Storybook
+        run: npm run build-storybook
 
   integration:
     name: Integration Tests
@@ -60,25 +75,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Restore Dependencies
+        run: npm ci
+
+      - name: Lint Integration Test
+        run: npm run lint:e2e -- --max-warnings 0
+
       - name: Run Cypress on Browsers
         uses: cypress-io/github-action@v5
         with:
           start: npm run start
           browser: ${{ matrix.browser }}
-
-      # - name: Run Cypress on Chrome
-      #   uses: cypress-io/github-action@v5
-      #   with:
-      #     install: false # Don't need to re-install deps, will error out if tried
-      #     start: npm run start
-      #     browser: chrome
-
-      # - name: Run Cypress on Edge
-      #   uses: cypress-io/github-action@v5
-      #   with:
-      #     install: false # Don't need to re-install deps, will error out if tried
-      #     start: npm run start
-      #     browser: edge
 
       # - name: Deploy App
       #   uses: azure/webapps-deploy@v2
