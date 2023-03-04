@@ -14,6 +14,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "cypress": "npx cypress open",
+    "preview": "react-scripts build && npx serve -s ./build -l 3000",
     "swagger": "npx swagger-typescript-api -p ./swagger/swagger.json -o ./src/data -n Api.ts --axios"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "eslint-plugin-jest-dom": "^4.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "sass": "^1.58.3",
     "typescript": "^4.9.5",

@@ -1,4 +1,6 @@
 # Editor configuration, see https://editorconfig.org
+# Editor Config is the final say in formatting, these settings are copied in the prettier config.
+
 root = true
 
 [*]

@@ -4,6 +4,7 @@
   "editor.formatOnSave": true,
   "editor.guides.bracketPairs": "active",
   "editor.linkedEditing": true,
+  "files.autoSaveDelay": 5000,
   "files.eol": "\n",
   "html.autoClosingTags": true
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./app/App";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { appRoutes } from "./app/App.routes";
+import { homeRoutes } from "./features/home/Home.routes";
 import reportWebVitals from "./reportWebVitals";
 import "./styles/index.scss";
 
@@ -8,9 +10,11 @@ const root = ReactDOM.createRoot(
   document.querySelector("#root") ?? new Element()
 );
 
+const router = createBrowserRouter([appRoutes([homeRoutes()])]);
+
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
