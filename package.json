@@ -7,6 +7,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:watch": "npm test -- --coverage --watchAll",
+    "test:build": "react-scripts test /src/common --json --outputFile=./coverage/.jest-test-results.json",
     "lint": "npx eslint ./src --fix",
     "lint:e2e": "npx eslint ./cypress/e2e --fix",
     "prepare": "husky install",

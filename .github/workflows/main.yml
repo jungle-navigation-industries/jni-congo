@@ -56,14 +56,23 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
 
+      - name: Install jq to Print Tests
+        run: sudo apt install jq
+
       - name: Restore Dependencies
         run: npm ci
 
       - name: Lint Application
         run: npm run lint -- --max-warnings 0
 
-      - name: Run Unit Tests
-        run: npm run test -- --coverage
+      - name: Create Coverage Directory
+        run: mkdir coverage
+
+      - name: Run Storybook Tests
+        run: npm run test:build
+
+      - name: Print Test Results
+        run: jq . ./coverage/.jest-test-results.json
 
       - name: Build Storybook
         run: npm run build-storybook
