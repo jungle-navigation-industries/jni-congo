@@ -9,7 +9,7 @@ env:
 
 jobs:
   unit:
-    name: Unit Tests
+    name: Lint & Unit Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -28,7 +28,7 @@ jobs:
         run: npm run lint -- --max-warnings 0
 
       - name: Run Unit Tests
-        run: echo npm run test -- --coverage >> $GITHUB_STEP_SUMMARY
+        run: npm run test -- --coverage >> $GITHUB_STEP_SUMMARY
 
   application:
     name: Prepare Application
