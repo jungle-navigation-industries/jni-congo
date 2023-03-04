@@ -35,7 +35,7 @@ jobs:
           echo "# Unit Tests Summary :chart_with_upwards_trend:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           cat ./coverage/coverage-summary.txt >> $GITHUB_STEP_SUMMARY
-          cat ./coverage/coverage.text >> $GITHUB_STEP_SUMMARY
+          cat ./coverage/coverage.txt >> $GITHUB_STEP_SUMMARY
 
   application:
     name: Prepare Application
