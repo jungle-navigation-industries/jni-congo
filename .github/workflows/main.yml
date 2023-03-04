@@ -76,7 +76,6 @@ jobs:
 
   integration:
     name: Integration Tests
-    needs: application
     runs-on: ubuntu-latest
 
     strategy:
