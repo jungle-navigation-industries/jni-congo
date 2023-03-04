@@ -7,7 +7,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:watch": "npm test -- --coverage --watchAll",
-    "test:build": "react-scripts test /src/common --json --outputFile=./coverage/.jest-test-results.json",
+    "test:storybook:build": "react-scripts test /src/common --json --outputFile=./coverage/.jest-test-results.json",
     "lint": "npx eslint ./src --fix",
     "lint:e2e": "npx eslint ./cypress/e2e --fix",
     "prepare": "husky install",
@@ -77,24 +77,32 @@
         "statements": -10
       }
     },
+    "coverageReporters": [
+      [
+        "text"
+      ],
+      [
+        "text-summary"
+      ],
+      [
+        "text",
+        {
+          "file": "coverage.txt"
+        }
+      ],
+      [
+        "text-summary",
+        {
+          "file": "coverage-summary.txt"
+        }
+      ]
+    ],
     "coveragePathIgnorePatterns": [
       "index.tsx",
       "reportWebVitals.ts",
       "src/data",
       ".stories.*",
       ".spec.*"
-    ]
-  },
-  "eslintConfig": {
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
     ]
   }
 }

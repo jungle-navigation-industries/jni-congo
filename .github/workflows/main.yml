@@ -28,11 +28,18 @@ jobs:
         run: npm run lint -- --max-warnings 0
 
       - name: Run Unit Tests
-        run: npm run test -- --coverage >> $GITHUB_STEP_SUMMARY
+        run: npm run test -- --coverage
+
+      - name: Print Job Summary
+        run: |
+          echo "# Unit Tests Summary :chart_with_upwards_trend:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat ./coverage/coverage-summary.txt >> $GITHUB_STEP_SUMMARY
+          cat ./coverage/coverage.text >> $GITHUB_STEP_SUMMARY
 
   application:
     name: Prepare Application
-    needs: unit
+    needs: [unit, integration]
     runs-on: ubuntu-latest
 
     steps:
@@ -79,7 +86,7 @@ jobs:
         run: mkdir coverage
 
       - name: Run Storybook Tests
-        run: npm run test:build
+        run: npm run test:storybook:build
 
       - name: Print Test Results
         run: jq . ./coverage/.jest-test-results.json
