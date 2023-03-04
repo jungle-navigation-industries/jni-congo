@@ -1,10 +1,6 @@
 name: main
 
-on:
-  push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
+on: [push, pull_request]
 
 env:
   NODE_VERSION: "18.x"
@@ -12,8 +8,8 @@ env:
   AZURE_WEBAPP_STORYBOOK_NAME: "asc-dev-react-storybook"
 
 jobs:
-  application:
-    name: Prepare Application
+  unit:
+    name: Unit Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +28,24 @@ jobs:
         run: npm run lint -- --max-warnings 0
 
       - name: Run Unit Tests
-        run: npm run test -- --coverage
+        run: echo npm run test -- --coverage >> $GITHUB_STEP_SUMMARY
+
+  application:
+    name: Prepare Application
+    needs: unit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Restore Dependencies
+        run: npm ci
 
       - name: Build Application
         run: npm run build
