@@ -56,9 +56,6 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
 
-      - name: Install jq to Print Tests
-        run: sudo apt install jq
-
       - name: Restore Dependencies
         run: npm ci
 
