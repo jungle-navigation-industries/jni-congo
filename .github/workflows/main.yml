@@ -100,14 +100,23 @@ jobs:
       - name: Restore Dependencies
         run: npm ci
 
+      - name: Install Serve
+        run: npm install -g serve
+
       - name: Lint Integration Test
         run: npm run lint:e2e -- --max-warnings 0
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Serve Application
+        run: serve -s ./build -l 3000
 
       - name: Run Cypress on Browsers
         uses: cypress-io/github-action@v5
         with:
-          start: npm run start
-          wait-on: "http://localhost:3000"
+          # start: npm run start
+          # wait-on: "http://localhost:3000"
           browser: ${{ matrix.browser }}
 
   deploy_application:
