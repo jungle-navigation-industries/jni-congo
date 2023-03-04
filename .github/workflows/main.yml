@@ -109,14 +109,11 @@ jobs:
       - name: Build Application
         run: npm run build
 
-      - name: Serve Application
-        run: serve -s ./build -l 3000
-
       - name: Run Cypress on Browsers
         uses: cypress-io/github-action@v5
         with:
-          # start: npm run start
-          # wait-on: "http://localhost:3000"
+          start: serve -s ./build -l 3000
+          wait-on: "http://localhost:3000"
           browser: ${{ matrix.browser }}
 
   deploy_application:
