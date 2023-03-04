@@ -12,7 +12,8 @@ env:
   AZURE_WEBAPP_STORYBOOK_NAME: "asc-dev-react-storybook"
 
 jobs:
-  build:
+  prepare:
+    name: Prepare App
     runs-on: ubuntu-latest
 
     strategy:
@@ -46,25 +47,38 @@ jobs:
       - name: Run Unit Tests
         run: npm run test -- --coverage
 
-      - name: Run Cypress on Firefox
-        uses: cypress-io/github-action@v5
-        with:
-          start: npm run start
-          browser: firefox
+  integration:
+    name: Integration Tests
+    needs: prepare
+    runs-on: ubuntu-latest
 
-      - name: Run Cypress on Chrome
-        uses: cypress-io/github-action@v5
-        with:
-          install: false # Don't need to re-install deps, will error out if tried
-          start: npm run start
-          browser: chrome
+    strategy:
+      matrix:
+        browser: [firefox, chrome, edge]
 
-      - name: Run Cypress on Edge
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Cypress on Browsers
         uses: cypress-io/github-action@v5
         with:
-          install: false # Don't need to re-install deps, will error out if tried
           start: npm run start
-          browser: edge
+          browser: ${{ matrix.browser }}
+
+      # - name: Run Cypress on Chrome
+      #   uses: cypress-io/github-action@v5
+      #   with:
+      #     install: false # Don't need to re-install deps, will error out if tried
+      #     start: npm run start
+      #     browser: chrome
+
+      # - name: Run Cypress on Edge
+      #   uses: cypress-io/github-action@v5
+      #   with:
+      #     install: false # Don't need to re-install deps, will error out if tried
+      #     start: npm run start
+      #     browser: edge
 
       # - name: Deploy App
       #   uses: azure/webapps-deploy@v2
