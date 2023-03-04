@@ -122,7 +122,7 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: ./build
+          package: ./
 
   deploy_storybook:
     name: Deploy Storybook
@@ -143,4 +143,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_STORYBOOK_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_STORYBOOK_PUBLISH_PROFILE }}
-          package: ./storybook-static
+          package: ./
