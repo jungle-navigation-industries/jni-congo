@@ -152,7 +152,7 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: application
+          name: ${{ matrix.app_type }}
 
       - if: ${{ matrix.app_type == 'application' }}
         name: Deploy Application
