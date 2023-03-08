@@ -136,7 +136,7 @@ jobs:
           wait-on: "http://localhost:3000"
           browser: ${{ matrix.browser }}
 
-  deploy:
+  deploy_application:
     name: Deploy Applications
     needs: [application, storybook, integration]
     runs-on: ubuntu-latest
@@ -144,13 +144,6 @@ jobs:
     strategy:
       matrix:
         app_type: [application, storybook]
-        include:
-          - app_type: application
-            app_name: "${{ env.AZURE_WEBAPP_NAME }}"
-            profile: "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}"
-          - app_type: storybook
-            app_name: "${{ env.AZURE_WEBAPP_STORYBOOK_NAME }}"
-            profile: "${{ secrets.AZURE_WEBAPP_STORYBOOK_PUBLISH_PROFILE }}"
 
     steps:
       - name: Checkout
@@ -159,13 +152,21 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ matrix.app_type }}
+          name: application
 
-      - name: Deploy Application
+      - if: ${{ matrix.application }}
+        name: Deploy Application
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ matrix.app_name }}
-          publish-profile: ${{ matrix.profile }}
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+
+      - if: ${{ matrix.storybook}}
+        name: Deploy Storybook
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_STORYBOOK_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_STORYBOOK_PUBLISH_PROFILE }}
 
   # deploy_storybook:
   #   name: Deploy Storybook
