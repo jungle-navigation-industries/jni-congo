@@ -136,7 +136,7 @@ jobs:
           wait-on: "http://localhost:3000"
           browser: ${{ matrix.browser }}
 
-  deploy_application:
+  deploy:
     name: Deploy Applications
     needs: [application, storybook, integration]
     runs-on: ubuntu-latest
@@ -154,14 +154,14 @@ jobs:
         with:
           name: application
 
-      - if: ${{ matrix.application }}
+      - if: ${{ matrix.app_type == 'application' }}
         name: Deploy Application
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
-      - if: ${{ matrix.storybook}}
+      - if: ${{ matrix.app_type == 'storybook' }}
         name: Deploy Storybook
         uses: azure/webapps-deploy@v2
         with:
