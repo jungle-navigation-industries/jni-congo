@@ -146,11 +146,11 @@ jobs:
         app_type: [application, storybook]
         include:
           - app_type: application
-            app_name: asc-dev-react
-            profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+            app_name: "${{ env.AZURE_WEBAPP_NAME }}"
+            profile: "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}"
           - app_type: storybook
-            app_name: asc-dev-react-storybook
-            profile: ${{ secrets.AZURE_WEBAPP_STORYBOOK_PUBLISH_PROFILE }}
+            app_name: "${{ env.AZURE_WEBAPP_STORYBOOK_NAME }}"
+            profile: "${{ secrets.AZURE_WEBAPP_STORYBOOK_PUBLISH_PROFILE }}"
 
     steps:
       - name: Checkout
