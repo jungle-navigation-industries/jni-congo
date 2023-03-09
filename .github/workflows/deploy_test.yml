@@ -33,8 +33,7 @@ jobs:
         uses: OctopusDeploy/create-zip-package-action@v3
         with:
           package_id: "JNI.Congo"
-          version: |
-            $(date +%Y%m%d%H%M)
+          version: ${{ github.head_ref }}
           output_folder: "./packaging"
           base_path: ./build
           files: |
@@ -47,4 +46,4 @@ jobs:
           OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API }}
           OCTOPUS_SPACE: "Default"
         with:
-          packages: ./packaging
+          packages: ./packaging/**/*.zip
