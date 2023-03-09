@@ -29,14 +29,16 @@ jobs:
       - name: Build Application
         run: npm run build
 
-      - name: Install Octopus CLI
-        uses: OctopusDeploy/install-octopus-cli-action@v1
+      - name: Create a Zip package 🐙
+        uses: OctopusDeploy/create-zip-package-action@v3
         with:
-          version: latest
-
-      - name: Package OctoPetShopDatabase
-        run: |
-          octo pack --id="JNI.Congo" --format="Zip" --version="$PACKAGE_VERSION" --basePath="./build" --outFolder="$GITHUB_WORKSPACE/artifacts"
+          package_id: "JNI.Congo"
+          version: |
+            $(date +%Y%m%d%H%M)
+          output_folder: "./packaging"
+          base_path: ./build
+          files: |
+            **/*.*
 
       - name: Push a package to Octopus Deploy 🐙
         uses: OctopusDeploy/push-package-action@v3
@@ -45,4 +47,4 @@ jobs:
           OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API }}
           OCTOPUS_SPACE: "Default"
         with:
-          packages: ./artifacts
+          packages: ./packaging
