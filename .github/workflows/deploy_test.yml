@@ -5,6 +5,9 @@ on:
 
 jobs:
   prepare:
+    name: Prepare Application
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
