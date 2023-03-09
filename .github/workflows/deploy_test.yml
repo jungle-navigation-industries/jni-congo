@@ -1,0 +1,10 @@
+name: Deploy To Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  prepare:
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3

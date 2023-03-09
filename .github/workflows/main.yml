@@ -167,23 +167,3 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_STORYBOOK_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_STORYBOOK_PUBLISH_PROFILE }}
-
-  # deploy_storybook:
-  #   name: Deploy Storybook
-  #   needs: [application, storybook, integration]
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-
-  #     - name: Download Artifact
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: storybook
-
-  #     - name: Deploy Application
-  #       uses: azure/webapps-deploy@v2
-  #       with:
-  #         app-name: ${{ env.AZURE_WEBAPP_STORYBOOK_NAME }}
-  #         publish-profile: ${{ secrets.AZURE_WEBAPP_STORYBOOK_PUBLISH_PROFILE }}
