@@ -1,10 +1,6 @@
 name: main
 
-on:
-  push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
+on: [push, pull_request]
 
 env:
   NODE_VERSION: "18.x"
@@ -12,8 +8,8 @@ env:
   AZURE_WEBAPP_STORYBOOK_NAME: "asc-dev-react-storybook"
 
 jobs:
-  application:
-    name: Prepare Application
+  unit:
+    name: Lint & Unit Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -33,6 +29,30 @@ jobs:
 
       - name: Run Unit Tests
         run: npm run test -- --coverage
+
+      - name: Print Job Summary
+        run: |
+          echo "# Unit Tests Summary :chart_with_upwards_trend:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat ./coverage/coverage-summary.txt >> $GITHUB_STEP_SUMMARY
+          cat ./coverage/coverage.txt >> $GITHUB_STEP_SUMMARY
+
+  application:
+    name: Prepare Application
+    needs: [unit, integration]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Restore Dependencies
+        run: npm ci
 
       - name: Build Application
         run: npm run build
@@ -66,7 +86,7 @@ jobs:
         run: mkdir coverage
 
       - name: Run Storybook Tests
-        run: npm run test:build
+        run: npm run test:storybook:build
 
       - name: Print Test Results
         run: jq . ./coverage/.jest-test-results.json
@@ -116,10 +136,14 @@ jobs:
           wait-on: "http://localhost:3000"
           browser: ${{ matrix.browser }}
 
-  deploy_application:
-    name: Deploy Application
+  deploy:
+    name: Deploy Applications
     needs: [application, storybook, integration]
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        app_type: [application, storybook]
 
     steps:
       - name: Checkout
@@ -128,29 +152,17 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3
         with:
-          name: application
+          name: ${{ matrix.app_type }}
 
-      - name: Deploy Application
+      - if: ${{ matrix.app_type == 'application' }}
+        name: Deploy Application
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
-  deploy_storybook:
-    name: Deploy Storybook
-    needs: [application, storybook, integration]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: storybook
-
-      - name: Deploy Application
+      - if: ${{ matrix.app_type == 'storybook' }}
+        name: Deploy Storybook
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_STORYBOOK_NAME }}
