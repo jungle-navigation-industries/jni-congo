@@ -11,3 +11,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.node-version }}
+
+      - name: Restore Dependencies
+        run: npm ci
+
+      - name: Lint Application
+        run: npm run lint -- --max-warnings 0
+
+      - name: Run Unit Tests
+        run: npm run test -- --coverage
+
+      - name: Build Application
+        run: npm run build
+
+      - name: Push a package to Octopus Deploy 🐙
+        uses: OctopusDeploy/push-package-action@v3
+        env:
+          OCTOPUS_URL: ${{ secrets.OCTOPUS_SERVER }}
+          OCTOPUS_API_KEY: ${{ secrets.OCTOPUS_API }}
+          OCTOPUS_SPACE: "Default"
+        with:
+          packages: ./build
