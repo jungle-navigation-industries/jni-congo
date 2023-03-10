@@ -73,7 +73,9 @@
         "prefix": ["T"]
       }
     ],
+    "@typescript-eslint/no-magic-numbers": [2, { "ignoreEnums": true }],
     "jest/require-top-level-describe": 2,
+    "jest/prefer-lowercase-title": 2,
     "react/boolean-prop-naming": 2,
     "react/forbid-component-props": 2,
     "react/jsx-handler-names": 2,
@@ -96,6 +98,12 @@
     ]
   },
   "overrides": [
+    {
+      "files": ["**/*.spec.*"],
+      "rules": {
+        "@typescript-eslint/no-magic-numbers": 0
+      }
+    },
     {
       "files": ["**/*.stories.*"],
       "rules": {

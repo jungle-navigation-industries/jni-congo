@@ -1,10 +1,18 @@
 import { Outlet } from "react-router-dom";
 import Title from "../common/elements/title/Title";
 import { TitleSize } from "../common/elements/title/TitleSize";
+import {
+  useCreateStore,
+  defaultApplicationState,
+  applicationReducer,
+  ApplicationContext,
+} from "../stores";
 
 const App: React.FC = () => {
+  const store = useCreateStore(defaultApplicationState(), applicationReducer);
+
   return (
-    <>
+    <ApplicationContext.Provider value={store}>
       <header>
         <nav>
           <Title
@@ -17,7 +25,7 @@ const App: React.FC = () => {
         <Outlet />
       </main>
       <footer></footer>
-    </>
+    </ApplicationContext.Provider>
   );
 };
 
