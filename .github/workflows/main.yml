@@ -161,6 +161,12 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.CONGO_DEV_PUBLISH }}
 
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "."
+          tag: development
+
       # - if: ${{ matrix.app_type == 'storybook' }}
       #   name: Deploy Storybook
       #   uses: azure/webapps-deploy@v2
