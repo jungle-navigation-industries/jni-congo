@@ -140,6 +140,8 @@ jobs:
     name: Deploy Applications
     needs: [application, storybook, integration]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     strategy:
       matrix:
@@ -161,7 +163,8 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.CONGO_DEV_PUBLISH }}
 
-      - name: Create Release
+      - if: ${{ matrix.app_type == 'application' }}
+        name: Create Release
         uses: ncipollo/release-action@v1
         with:
           artifacts: "."
