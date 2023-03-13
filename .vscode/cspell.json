@@ -1,4 +1,4 @@
 {
-  "words": ["autodocs", "compat", "sonarjs", "TTFB", "webapps"],
+  "words": ["autodocs", "bulma", "compat", "sonarjs", "TTFB", "webapps"],
   "ignoreWords": ["acacode"]
 }

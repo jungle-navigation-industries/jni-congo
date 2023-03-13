@@ -1,8 +1,18 @@
+import { Title, TitleSize } from "../../common";
+import apiClient from "../../data/Client";
+import { defaultGetAuthenticationUrlResponse } from "../../data/DefaultApiTypes";
+import { useFetchData } from "../../data/UseFetchData";
+
 const Home: React.FC = () => {
+  const result = useFetchData(
+    defaultGetAuthenticationUrlResponse(),
+    apiClient().api.getAuthenticationUrl
+  );
+
   return (
     <div>
-      <h2>Home</h2>
-      <a href="https://login.eveonline.com/oauth/authorize?response_type=code&redirect_uri=https://localhost/callback/&client_id=dd02558f01f84d38848349a7ebe4f1f0&scope=publicData">
+      <Title titleSize={TitleSize.Two} title="Home" />
+      <a href={result.response.url}>
         <button>Log In</button>
       </a>
     </div>

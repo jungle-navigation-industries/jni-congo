@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { appRoutes } from "./app/App.routes";
+import { esiAuthenticationRoutes } from "./features/esi-authentication/EsiAuthentication.routes";
 import { homeRoutes } from "./features/home/Home.routes";
 import reportWebVitals from "./reportWebVitals";
 import "./styles/index.scss";
@@ -10,7 +11,9 @@ const root = ReactDOM.createRoot(
   document.querySelector("#root") ?? new Element()
 );
 
-const router = createBrowserRouter([appRoutes([homeRoutes()])]);
+const router = createBrowserRouter([
+  appRoutes([homeRoutes(), esiAuthenticationRoutes()]),
+]);
 
 root.render(
   <React.StrictMode>
